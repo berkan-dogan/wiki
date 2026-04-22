@@ -1,22 +1,33 @@
----
-SPDX-License-Identifier: CC0-1.0
----
 # Immutable Linux Dağıtımları Nedir?
 
-Öncelikle Selamlar, bu postumda immutable kötüleyicileri(gelenekseller, muhafazakarlar) ve geleneksel linux masaüstü savunucularına birkaç şey söylemek için yazdım.
+> **Yazar:** [SiyanWare](https://github.com/faydini065)
 
-Bunlara immutable distroların ne olduğunu anlatmakla cevap vereceğim.
+!!! note
+
+    Bu yazı, immutable (değiştirilemez) Linux dağıtımlarına karşı önyargılı olan veya geleneksel Linux masaüstü anlayışını savunanlara yönelik olarak hazırlanmıştır. Tartışmanın merkezindeki "Immutable" kavramının ne anlama geldiğini teknik gerçekleriyle açıklamak en doğrusudur.
 
 ## Immutable Linux Dağıtımları Nedir?
-Immutable linux dağıtımları, Fedora Atomic(Coreos, Silverblue, Kinoite ve diğerleri...), Almalinux CoreOS, RHEL Bootc, Fedora Bootc, Bazzite, SteamOS, Ubuntu CoreOS, **Android, ChromeOS** ve Kde Linux gibi dağıtımlardır. 
-Bunlar genellikle bir temel base imaj olur ve o imajın üstüne layer ekleyerek yeni paketlerin kurulumu sağlanır(Android ve ChromeOS'ta bu durum farklıdır bu postta daha çok RPM-OSTREE kullananlara değineceğim). Distrobox bağımlılığı yoktur, fedorada rpm-ostree kullanılarak ek layer eklemesi yapılabilir. Ayrıca /etc, /var gibi konfigürasyon dosyaları da değiştirilebilirdir. Yani Immutable yanlış bir kavramdır.
-Ayrıca bu dağıtımlar genelde Flatpak ve Snap paketlerine öncelik verir.
+
+Immutable Linux dağıtımları; Fedora Atomic (CoreOS, Silverblue, Kinoite vb.), AlmaLinux CoreOS, RHEL Bootc, Fedora Bootc, Bazzite, SteamOS, Ubuntu Core, **ChromeOS** ve **Android** gibi dağıtımlardır.
+
+Bu sistemler genellikle sadece-okunur (read-only) bir temel imaj üzerine kurulur. Yeni paketler, bu temel imajın üzerine katmanlar (layer) eklenerek sistemize entegre edilir (Android ve ChromeOS'un kendi özel mimarileri vardır, ancak bu yazıda daha çok RPM-OSTREE tabanlı masaüstü dağıtımlarına odaklanılacaktır).
+
+Sisteme paket eklemek için Distrobox gibi araçlara bağımlı değilsiniz; örneğin Fedora'da `rpm-ostree` kullanarak doğrudan ek katmanlar oluşturabilirsiniz. Ayrıca `/etc` (yapılandırma dosyaları) ve `/var` (kalıcı veriler) dizinleri tamamen değiştirilebilirdir. Bu yüzden "Immutable" kelimesi sistemdeki *her şeye* dokunulamaz anlamına gelmez; yalnızca temel sistemin bozulmadan korunmasını ifade eder. Ayrıca bu dağıtımlar, grafiksel uygulama kurulumları için genellikle Flatpak ve Snap gibi sandboxes paket formatlarına öncelik verir.
 
 ## Peki Neden Immutable Distrolar?
-Immutable dağıtımlar biz istesekte istemesek de son kullanıcılar için iyi bir alternatiftir. Immutable dağıtımların standartlaşması ve paket yönetiminin gelişmesi durumunda immutable dağıtımlardaki sorunların %90'ı ortadan kalkacaktır.
-Ayrıca immutable dağıtımlar kullanıcı için stabillik, güvenlik için altyapı sağlar. Immutable dağıtımların genelinin boot güvenliği varsayılan olarak ayarlanmamış olsa da birkaç patch ile birlikte ve linux kernelinin dm-verity ve fs-verity gibi modüllerinin kullanımıyla boot güvenliği yazılım seviyesinde sağlanabilir ve bu son kullanıcı için yeterlidir.
-Ayrıca Immutable dağıtımların stabil olmasının nedeni, base sistemin dağıtım geliştiricileri tarafından genelde test edilip sunulmasıdır. Bu sayede SteamOS gibi yine Immutable fakat stabilitesinin eksikliği ile bilinen Arch Linux gibi dağıtımları base alan dağıtımlar stabilitesini koruyabilir.
-Ayrıca Android ve ChromeOS Immutable bir Linux dağıtımıdır.
+
+Immutable dağıtımlar, geleneksel kullanıcı alışkanlıklarından bağımsız olarak son kullanıcılar için oldukça güvenli ve verimli bir alternatiftir. Paket yönetim sistemlerinin bu yeni yapıya tam olarak adapte olmasıyla, immutable dağıtımlardaki günlük kullanım sorunlarının büyük çoğunluğu ortadan kalkacaktır.
+
+Bu yapıyı önemli kılan temel unsurlar şunlardır:
+
+- **Stabilite:** Temel sistem, dağıtım geliştiricileri tarafından yoğun bir şekilde test edilip sunulur. Bu sayede, Arch Linux gibi stabilitesinden ödün veren dağıtımları temel alan SteamOS gibi immutable sistemler, üst katmandaki değişikliklerden etkilenmeden stabilitesini korur.
+- **Güvenlik:** Immutable dağıtımların çoğunda önyükleme (boot) güvenliği varsayılan olarak kapalı gelse de, Linux kernelinin `dm-verity` ve `fs-verity` gibi modülleri kullanılarak yazılım seviyesinde tam bir bütünlük kontrolü sağlanabilir. Bu durum son kullanıcı için fazlasıyla yeterli bir güvenlik katmanı oluşturur.
 
 ## Gelecek Immutable Distrolarda Mıdır?
-Bu soru gayette güzel bir sorudur. Özellikle muhafazakar linux dağıtımlarından Immutable Linux dağıtımlarına geçiş ani olmasa da 10 yıl önceki immutable dağıtımlara bakış açımızla şuanki aynı değildir. Şuanda linux genelinde bir immutability'ye, bir devrime ihtiyacımız var. Linux masaüstü, eskiye dönük olmaktan ziyade yeni teknolojileri gözlemelidir. Mesela ```glibc``` ve ```grub``` dan, llvm ve systemd-boot(veya ihtiyaca göre limine) a geçilmelidir.
+
+Linux ekosistemindeki değişim ani olmasa da, 10 yıl önceki immutable dağıtımlara bakış açımız ile bugünkü bakış açımız aynı değildir. Günümüzde Linux masaüstünün eskide kalmış anlayıştan çıkıp yeni teknolojilere adapte olması, hatta bunu bir standart haline getirmesi gerekmektedir.
+
+Bu devrim sadece dosya sisteminde değil, temel bileşenlerde de yaşanmalıdır. Örneğin geleneksel olarak kullanılan `glibc` ve `GRUB` gibi eski araçların yerini, daha modern ve güvenli alternatiflere bırakması; boot süreçlerinde `systemd-boot` (veya ihtiyaca göre `limine`) gibi araçlara geçiş yapılması Linux'un geleceği için önemli bir adımdır. Immutable mimari, bu modernizasyonun en büyük yapı taşı olacaktır.
+
+---
+SPDX-License-Identifier: CC0-1.0
