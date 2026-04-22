@@ -4,7 +4,7 @@
 
 !!! note
 
-    Linux Kullanıyorsanız ve Firefox'u kaynaktan derlediyseniz, sisteminizde otomatik olarak AppArmor veya SELinux profili oluşmayacaktır. Bu yüzden https://support.mozilla.org/tr/kb/linux-security-warning?as=u&utm_source=inproduct bu makaleyi okumanızı şiddetle öneririm. Aksi takdirde altta yaptığımız yapılandırmalar güvenlik açısından zayıf kalabilir. Paket yöneticilerinden (.deb, rpm vb.), Flatpak veya Snap üzerinden kurduysanız bu profiller genellikle hazır geldiği için makaleye bakmanıza gerek yoktur.
+    Linux Kullanıyorsanız ve Firefox'u kaynaktan derlediyseniz, sisteminizde otomatik olarak AppArmor veya SELinux profili oluşmayacaktır. Bu yüzden https://support.mozilla.org/tr/kb/linux-security-warning bu makaleyi okumanızı şiddetle öneririm. Aksi takdirde altta yaptığımız yapılandırmalar güvenlik açısından zayıf kalabilir. Paket yöneticilerinden (.deb, rpm vb.), Flatpak veya Snap üzerinden kurduysanız bu profiller genellikle hazır geldiği için makaleye bakmanıza gerek yoktur.
 
 !!! note
 
