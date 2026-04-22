@@ -1,56 +1,60 @@
----
-SPDX-License-Identifier: CC0-1.0
----
-
 # Firefox'u Hardened Yapma Rehberi
 
-!!! note
-```
-Linux Kullanıyorsanız ve Firefox'u Kaynaktan Derlediyseniz veya Tarball olarak kurduysanız apparmor veya selinux yapılandırması oluşmayacağı için https://support.mozilla.org/tr/kb/linux-security-warning?as=u&utm_source=inproduct bu makaleyi okumanızı şiddetle öneririm. Aksi takdirde altta yaptığımız yapılandırmalar güvenlik açısından zayıf kalabilir. Flatpak, Snap veya .deb paketinden kurduysanız makaleye bakmanıza gerek yoktur.
-```
+> **Yazar:** [SiyanWare](https://github.com/faydini065)
 
 !!! note
-```
-Firefox, güvenlik açısından(özellikle sandboxing) chromium'dan çok daha geridedir. Eğer güvenliği önemseyen biriyseniz [bu makaleye](https://github.com/RKNF404/chromium-hardening-guide) göre chrome'u hardened yapmak veya fedora tabanlı bir dağıtım kullanıyorsanız trivalent kullanmak gibi seçeneklere başvurmalısınız.
-```
 
+    Linux Kullanıyorsanız ve Firefox'u kaynaktan derlediyseniz, sisteminizde otomatik olarak AppArmor veya SELinux profili oluşmayacaktır. Bu yüzden https://support.mozilla.org/tr/kb/linux-security-warning?as=u&utm_source=inproduct bu makaleyi okumanızı şiddetle öneririm. Aksi takdirde altta yaptığımız yapılandırmalar güvenlik açısından zayıf kalabilir. Paket yöneticilerinden (.deb, rpm vb.), Flatpak veya Snap üzerinden kurduysanız bu profiller genellikle hazır geldiği için makaleye bakmanıza gerek yoktur.
+
+!!! note
+
+    Geçmişte Firefox'un sandboxing (korumalı alan) mekanizması Chromium'dan geridedi. Site yalıtımı (Fission) gibi büyük güncellemelerle bu fark büyük ölçüde kapatılmış olsa da, en üst düzey güvenlik ve izolasyon istiyorsanız [bu makaleye](https://github.com/RKNF404/chromium-hardening-guide) göre Chromium'u hardened yapmak veya Fedora tabanlı bir dağıtım kullanıyorsanız Trivalent kullanmak gibi seçeneklere başvurabilirsiniz.
 
 ### about:config ayarları
 
-Burada uzun uzun about:config ayarlarını ayarlamayı anlatsam makale sığmayacağı için size en iyisinden bir user.js öneriyorum. https://github.com/arkenfox/user.js/
+Burada uzun uzun about:config ayarlarını ayarlamayı anlatsam makale sığmayacağı için size en iyisinden bir user.js öneriyorum: <https://github.com/arkenfox/user.js/>
 
-**Nasıl Kurulur?**
-Arama motorunuza about:support yazın. Çıkan yerde Profil Dizinini Açın ve kullandığınız Dizinin içine açarak attığım github linkinden user.js dosyasını indirip içine atın. Varsayılan profiliniz genelde xxxxxxxx.default-release şeklindedir. Firefox'u yeniden açtığınızda boş sayfa geliyorsa yapılandırma başarıyla tamamlanmış demektir.
+### **Nasıl Kurulur?**
+
+Arama çubuğunuza `about:support` yazın. Çıkan sayfada "Profil Dizini" kısmının yanındaki "Klasörü Aç" butonuna tıklayın. Varsayılan profiliniz genelde `xxxxxxxx.default-release` şeklindedir. Açılan bu klasörün içine, Github linkinden indirdiğiniz `user.js` dosyasını atın. Firefox'u yeniden başlattığınızda boş bir sayfa geliyorsa yapılandırma başarıyla tamamlanmış demektir.
 
 **Değiştirmek İsteyeceğiniz Bazı Şeyler**
-- Firefox'u kapatınca Gezinti verilerinin silinmesi: Buna şifre gibi veriler de dahildir. privacy.sanitize.sanitizeOnShutdown değerini user.js dosyasının üzerinde bir metin editörü kullanarak(örnek olarak Kate,Nano, Vim, Gnome text Editor, Visual studio code, VSCodium) false yapmak veya olduğu satıra diyez koymak gereklidir.
 
-- Adres Çubuğu Önerileri: Arama verileriniz google'a gittiği için kapatılmıştır. Açmak için yine bir metin editörü kullanarak browser.urlbar.suggest.history ve browser.urlbar.suggest.bookmark değerlerini ```true``` yapmak gereklidir.
+- **Firefox'u kapatınca gezinti verilerinin silinmesi:** Arkenfox varsayılan olarak bu özelliği açar (Şifreler varsayılan olarak bu silme işleminin dışında tutulur ancak yine de dikkatli olunmalıdır). Kendi şifre yöneticinizi kullanıyorsanız ve Firefox'un verileri silmesini istemiyorsanız, user.js dosyasını bir metin editörüyle (Kate, Nano, Vim, Gnome Text Editor, VSCode, VSCodium vb.) açıp `privacy.sanitize.sanitizeOnShutdown` değerini `false` yapmak veya satırın başına `#` (diyez) koymak yeterlidir.
 
-- Otomatik Şifre ve Form Doldurma: Firefox'un kendi password manager'ini kapatır. signon.autofillForms ve browser.formfill.enable değerini true yapmak gereklidir.
+- **Adres Çubuğu Önerileri:** Arama verileriniz varsayılan arama motorunuza gönderildiği için bu öneriler kapatılmıştır. Tekrar açmak için yine bir metin editörü kullanarak `browser.urlbar.suggest.history` ve `browser.urlbar.suggest.bookmark` değerlerini `true` yapmanız gereklidir.
 
-- WebRTC Görüntülü Görüşme Ayarları: Arkenfox gerçek ip adresinin sızmaması için bunu kısıtlar fakat bu bazı görüntülü görüşmelerin yapılmamasına sebebiyet verebilir. media.peerconnection.enabled ayarı true yapılmalıdır.
+- **Otomatik Şifre ve Form Doldurma:** Firefox'un kendi şifre yöneticisini kapatır. Eğer Firefox'un şifrelerinizi hatırlamasını istiyorsanız `signon.autofillForms` ve `browser.formfill.enable` değerlerini `true` yapmanız gereklidir.
 
-- Tarayıcıyı Başlattığında açılacak sekme ve yeni sekme: Arkenfoxta varsayılan olarak bunlar boş sayfa gelir. Eğer kendiniz ayarlamak istiyorsanız 93. ve 97. satırların başına # işareti koymanız gerekmektedir.
+- **WebRTC Görüntülü Görüşme Ayarları:** Arkenfox, gerçek IP adresinizin sızmasını önlemek için WebRTC'yi kısıtlar, fakat bu durum bazı görüntülü görüşme sitelerinin çalışmamasına sebebiyet verebilir. Görüşme yapacaksanız `media.peerconnection.enabled` ayarını `true` yapmalısınız.
 
-*Not: Yukarıda bahsettiğim şeyleri mümkün olduğunca oynamamanız güvenlik ve mahremiyetiniz için en iyisi olacaktır.*
+- **Tarayıcıyı başlattığınızda açılacak sekme ve yeni sekme:** Arkenfox'ta varsayılan olarak bunlar boş sayfa olarak gelir. Kendi ayarlarınızı (anasayfanızı) belirlemek istiyorsanız dosyanın 93. ve 97. satırlarının başına `#` işareti koymanız gerekmektedir.
+
+*Not: Yukarıda bahsettiğim şeyleri mümkün olduğunca değiştirmemeniz güvenlik ve mahremiyetiniz için en iyisi olacaktır.*
 
 ### İşinize Yarayabilecek Bazı Eklentiler
+
 !!! note
-```
-Gizliliğinizi korumak için eklentileri minimumda tutmanız önerilir. Çünkü her eklenti fingerprint'inizi değiştirir ve benzersiz fingerprint websitelerinin sizi daha agresif takip etmesi demektir.
-```
-[Ublock Origin](https://addons.mozilla.org/tr/firefox/addon/ublock-origin/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search): Reklam ve Bazı Takip Çerezlerini Önlemek İçin Çokça Tercih Edilen Firefox'ta En Çok Kullanılan Eklentilerden Biri
 
-[NoScript](https://addons.mozilla.org/tr/firefox/addon/noscript/): Javascript'i Kısıtlamak İçin Kullanılan Eklenti. İşinde Başarılı fakat Ublock Origin'de bu yapılabilir. **Yani uBlock Origin ile beraber bunu kullanmak mantıksızdır.**
+    Gizliliğinizi korumak için eklentileri minimumda tutmanız önerilir. Çünkü her eklenti tarayıcınızın parmak izini (fingerprint) değiştirir ve benzersiz bir parmak izi, web sitelerinin sizi daha agresif bir şekilde takip etmesi demektir.
 
-[ClearUrls](https://addons.mozilla.org/tr/firefox/addon/clearurls/): Bazı Takip Parametrelerini Temizler Gizlilik İçin Önemlidir. Fakat Ublock Originde Url Tracking ayarını aktifleştirirseniz bu daha sağlıklı olur çünkü eklentileri minimum'da tutmak gizlilik ve güvenliği arttırır. **Yani uBlock Origin ile beraber bunu kullanmak mantıksızdır.**
+[uBlock Origin](https://addons.mozilla.org/tr/firefox/addon/ublock-origin/): Reklam ve bazı takip çerezlerini önlemek için çokça tercih edilen, Firefox'ta en çok kullanılan eklentilerden biridir.
 
-[Decentraleyes](https://addons.mozilla.org/tr/firefox/addon/decentraleyes/): Google Kütüphaneleri yerine yerel çözümler sunarak Takip edilmenin önüne geçer. Hız Açısından siteler biraz yavaşlayabilir. [LocalCDN](https://addons.mozilla.org/tr/firefox/addon/localcdn-fork-of-decentraleyes/) daha günceldir ve daha fazla kütüphane destekler. Fakat [Arkenfox'un açıklamasına](https://github.com/arkenfox/user.js/wiki/4.1-Extensions) göre Firefox zaten bu kütüphaneleri birbirinden izole edebiliyormuş ve Arkenfox'ta bu özellik açıkmış. Yani kullanılmasına gerek yokmuş.
+[NoScript](https://addons.mozilla.org/tr/firefox/addon/noscript/): JavaScript'i kısıtlamak için kullanılan eklenti. İşinde başarılı olsa da temel düzeyde JavaScript engellemek uBlock Origin ile de yapılabilir. **Yani güvenlik katmanı tekrarını (redundancy) sevmediğiniz sürece uBlock Origin ile beraber bunu kullanmak mantıksızdır.**
+
+[ClearURLs](https://addons.mozilla.org/tr/firefox/addon/clearurls/): Bazı takip parametrelerini URL'den temizler. Fakat uBlock Origin'e Adguard URL Tracking Protection gibi özel bir filtre listesi eklerseniz bu işi eklentisiz halletmiş olursunuz. Eklentileri minimumda tutmak gizlilik ve güvenliği artırdığı için **uBlock Origin ile beraber bunu kullanmak mantıksızdır.**
+
+[Decentraleyes](https://addons.mozilla.org/tr/firefox/addon/decentraleyes/) / [LocalCDN](https://addons.mozilla.org/tr/firefox/addon/localcdn-fork-of-decentraleyes/): Google gibi CDN kütüphaneleri yerine yerel çözümler sunarak takip edilmenin önüne geçer (LocalCDN daha günceldir ve daha fazla kütüphane destekler). Sitelerin hızını biraz yavaşlatabilir. [Arkenfox'un açıklamasına](https://github.com/arkenfox/user.js/wiki/4.1-Extensions) göre Firefox'un ilk taraf yalıtımı (partitioning) özelliği sayesinde bu CDN'lerin sizi siteler arası takip etmesi zaten engelleniyormuş. Bu yüzden gizlilik açısından kullanılmasına gerek yokmuş.
 
 ### Bazı Ayarlar
-Gelişmiş İzlenme Koruması Ayarını Sıkı Yapmak: Ayarlar>Gizlilik ve Güvenlik>Gelişmiş İzlenme Koruması Altından Ayarı Sıkı yapmanız önerilir. Herhangi bir sıkıntı çıkmaması için Önemli site sorunlarını düzelt ve Küçük Site sorunlarını düzelt seçeneklerini işaretlemenizi öneririm.
 
+**Gelişmiş İzlenme Koruması:** Ayarlar > Gizlilik ve Güvenlik > Gelişmiş İzlenme Koruması altındaki ayarı "Sıkı/Strict" yapmanız önerilir. Sitede dolaşırken herhangi bir sıkıntı yaşamamak için "Önemli site sorunlarını düzelt" ve "Küçük site sorunlarını düzelt" seçeneklerini işaretlemeniz faydalı olacaktır.
 
-Ayarlar>Gizlilik ve Güvenlik> içerisindeki Tehlikeli ve Aldatıcı İçerikleri Engelle, DNS'te arttırılmış korumayı seç ve NextDNS'i varsayılan DNS sağlayıcı olarak ayarla ve Yalnızla HTTPS modunu tüm pencerelerde etkinleştir gibi Ayarları da yapmanızı öneririm.
+**Diğer Gizlilik Ayarları:** Ayarlar > Gizlilik ve Güvenlik menünüzde yer alan şu ayarları yapmanız da önerilir:
 
+- Tehlikeli ve Aldatıcı İçerikleri Engelle kısmındaki korumayı açın.
+- DNS over HTTPS (DoH) ayarını artırılmış korumayı seçecek şekilde etkinleştirin ve kendinize uygun bir DNS sağlayıcı (örneğin NextDNS) seçin.
+- "Yalnızca HTTPS modunu tüm pencerelerde etkinleştir" seçeneğini işaretleyin.
+
+---
+SPDX-License-Identifier: CC0-1.0
