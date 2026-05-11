@@ -11,3 +11,5 @@ Her sayfanın sağ üstünde düzenleme seçeneği bulunmaktadır. Bu butona tı
 Ayrıca üst menüdeki _LinuxTurkey/wiki_ depo linkine direkt olarak PR veya _Issue_ gönderebilirsiniz.
 
 **[Reddit - r/LinuxTurkey](https://www.reddit.com/r/LinuxTurkey/)**
+
+**[Lemmy - c/LinuxTurkey](https://lemmy.world/c/LinuxTurkey)**
