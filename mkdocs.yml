@@ -1,7 +1,7 @@
 site_name: LinuxTurkey Wiki
-site_url: https://linuxturkey.github.io/wiki
+site_url: https://berkan-dogan.github.io/wiki
 docs_dir: src
-repo_url: https://github.com/LinuxTurkey/wiki
+repo_url: https://github.com/berkan-dogan/wiki
 repo_name: LinuxTurkey/wiki
 edit_uri: edit/main/src/
 use_directory_urls: false
