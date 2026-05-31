@@ -1,0 +1,3 @@
+[submodule "ext/lt"]
+	path = ext/lt
+	url = https://github.com/LinuxTurkey/wiki
