@@ -1,16 +1,17 @@
-site_name: LinuxTurkey Wiki
+site_name: Wiki
 site_url: https://berkan-dogan.github.io/wiki
 docs_dir: src
 repo_url: https://github.com/berkan-dogan/wiki
-repo_name: LinuxTurkey/wiki
-edit_uri: edit/main/src/
+repo_name: berkan-dogan/wiki
 use_directory_urls: false
+
 plugins:
   - social:
       cards_layout_options:
         logo: assets/logo.png
   - search
   - offline
+
 markdown_extensions:
   - admonition
   - pymdownx.details
@@ -22,6 +23,7 @@ markdown_extensions:
   - def_list
   - pymdownx.tasklist:
       custom_checkbox: true
+
 theme:
   name: material
   icon:
@@ -38,37 +40,43 @@ theme:
     - search.highlight
   language: tr
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: slate
-      primary: red
-      accent: red
+    - scheme: slate
+      primary: black
+      accent: black
       toggle:
         icon: material/weather-sunny
-        name: Switch to light mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: default
-      primary: red
-      accent: red
+        name: Açık moda geç
+    - scheme: default
+      primary: black
+      accent: black
       toggle:
         icon: material/weather-night
-        name: Switch to dark mode
+        name: Koyu moda geç
+
 nav:
-  - index.md
-  - rehberler/sss.md
-  - faydali_baglantilar.md
-  - Kullanıcı Rehberleri:
-      - rehberler/linux_uyumlu_donanim.md
-      - rehberler/lenovo_bios.md
-      - rehberler/fedora-nvidia-akmod-rehberi.md
-      - rehberler/fedora-yukseltme-rehberi.md
-      - rehberler/plymouth.md
-  - Güvenlik ve Sistem:
-      - rehberler/firefox-hardened.md
-      - rehberler/flatpak-ve-tarayicilar.md
-      - rehberler/verified-boot.md
-  - Editör Rehberleri:
-      - rehberler/hangi_dagitim.md
-      - rehberler/immutable-dagitimlar.md
-      - rehberler/windowstan_linuxa.md
-  - Diğer Wiki Kaynakları:
-      - Nix Öğreniyoruz: https://linuxturkey.github.io/nix-ogreniyoruz/
+  - Anasayfa: index.md
+  - Dil Modeli Rehberleri: p.md
+  - Veri İşleme: z.md
+  - Geleneksel Modeller: y.md
+  - Yeni Akademik Çalışmalar: x.md
+  - LinuxTurkey Arşivi:
+      - Anasayfa: lt/index.md
+      - Sık Sorulan Sorular: lt/rehberler/sss.md
+      - Kullanıcı Rehberleri:
+          - lt/rehberler/linux_uyumlu_donanim.md
+          - lt/rehberler/lenovo_bios.md
+          - lt/rehberler/fedora-nvidia-akmod-rehberi.md
+          - lt/rehberler/fedora-yukseltme-rehberi.md
+          - lt/rehberler/plymouth.md
+      - Güvenlik ve Sistem:
+          - lt/rehberler/firefox-hardened.md
+          - lt/rehberler/flatpak-ve-tarayicilar.md
+          - lt/rehberler/verified-boot.md
+      - Editör Rehberleri:
+          - lt/rehberler/hangi_dagitim.md
+          - lt/rehberler/immutable-dagitimlar.md
+          - lt/rehberler/windowstan_linuxa.md
+      - Faydalı Bağlantılar: lt/faydali_baglantilar.md
+      - Diğer Wiki Kaynakları:
+          - Nix Öğreniyoruz: https://linuxturkey.github.io/nix-ogreniyoruz/
+
